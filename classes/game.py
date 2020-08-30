@@ -27,16 +27,17 @@ class Person:
     def generate_damage(self):
         return random.randrange(self.atk_low, self.atk_high)
 
-    def generate_spell_damage(self, i):
-        mgl = self.magic[i]["dmg"] - 5
-        mgh = self.magic[i]["dmg"] + 5
-        return random.randrange(mgl, mgh)
 
     def take_damage(self, dmg):
         self.hp = self.hp - dmg
         if (self.hp < 0):
             self.hp = 0
         return self.hp
+
+    def heal(self, dmg):
+        self.hp = self.hp + dmg
+        if(self.hp > self.max_hp):
+            self.hp = self.max_hp
 
     def get_hp(self):
         return self.hp
@@ -70,6 +71,6 @@ class Person:
         i = 1
         print(bcolors.OKGREEN + bcolors.BOLD + "Magics" + bcolors.END)
         for spell in self.magic:
-            print(str(i) + ":" , spell["name"] + " cost : ", spell["cost"])
+            print(str(i) + ":" , spell.name + " cost : ", spell.cost)
             i +=1
 
