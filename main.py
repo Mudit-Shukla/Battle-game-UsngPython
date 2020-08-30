@@ -4,8 +4,11 @@ magic = [{"name": "Fire","cost": 10,"dmg": 60},
          {"name": "thunder","cost": 10,"dmg": 60},
          {"name": "blizzard","cost": 10,"dmg": 60}]
 
-player = Person(450,65, 60, 34, magic)
+player = Person(460,65, 60, 34, magic)
+enemy = Person(1200, 65, 45, 24, magic)
 
-print(player.generate_damage())
-print(player.generate_damage())
-print(player.generate_damage())
+running = True
+
+i = 0
+
+print(bcolors.FAIL + bcolors.BOLD + "Enemy Attacks" + bcolors.END)      # colours the text "Enemy attacks" the last attribute cancels the effect of the last applied effects.
