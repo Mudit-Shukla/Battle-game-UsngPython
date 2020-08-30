@@ -33,7 +33,7 @@ class Person:
         return random.randrange(mgl, mgh)
 
     def take_damage(self, dmg):
-        self.hp = self.hp - 10
+        self.hp = self.hp - dmg
         if (self.hp < 0):
             self.hp = 0
         return self.hp
@@ -61,14 +61,14 @@ class Person:
 
     def choose_action(self):
         i = 1
-        print("Actions")
+        print(bcolors.OKBLUE + bcolors.BOLD + "Actions" + bcolors.END)
         for item in self.actions:
             print(str(i) ,":" , item)
             i +=1
 
     def choose_magic(self):
         i = 1
-        print("Magics")
+        print(bcolors.OKGREEN + bcolors.BOLD + "Magics" + bcolors.END)
         for spell in self.magic:
             print(str(i) + ":" , spell["name"] + " cost : ", spell["cost"])
             i +=1

@@ -12,3 +12,23 @@ running = True
 i = 0
 
 print(bcolors.FAIL + bcolors.BOLD + "Enemy Attacks" + bcolors.END)      # colours the text "Enemy attacks" the last attribute cancels the effect of the last applied effects.
+
+while running:
+    print("======================================")
+    player.choose_action()
+    choice = int(input("Enter your choice"))
+    index = choice - 1
+
+    if index == 0:
+        damage = player.generate_damage()
+        enemy.take_damage(damage)
+        print("You attacked for ", str(damage) + "points of damage. Enemy hit points ", enemy.get_hp())
+    enemy_choice = 1
+    damage = enemy.generate_damage()
+    player.take_damage(damage)
+    if player.get_hp() == 0:
+        print("You are dead")
+        break
+    else:
+        print("Enemy attacked for", str(damage) + " points of damage. Your hit points ", player.get_hp())
+
