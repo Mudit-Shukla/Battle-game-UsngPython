@@ -84,7 +84,29 @@ class Person:
                   " (x" + str(item["quantity"]) + ")")
             i += 1
     def get_stats(self):
-        print("                               _________________________            _______________")
+        bar = ""
+        hp_bar_ticks = int(((self.hp/self.max_hp) * 100)/4)
+        spaces = 25-hp_bar_ticks
+        while hp_bar_ticks > 0:
+            bar += "█"
+            hp_bar_ticks -=1
+        hp_bar_spaces = ""
+        while spaces > 0:
+            hp_bar_spaces += " "
+            spaces -= 1
+
+        mp_bar_ticks = "█"
+        mp_bar = int((self.mp/self.max_mp) * 100)/10
+        mp_spaces = 10- mp_bar
+        while mp_bar>0:
+            mp_bar_ticks +="█"
+            mp_bar -=1
+        mp_bar_spaces = ""
+        while mp_spaces > 0:
+            mp_bar_spaces +=" "
+            mp_spaces -=1
+
+        print("                               _________________________             ___________")
         print(
-            bcolors.BOLD + self.name + ":          " + str(self.hp) + "/" + str(self.max_hp) + "  |" + bcolors.OKGREEN + "███████████             " + bcolors.END + "|    "+ str(self.mp) + "/" + str(self.max_mp) + "  |" + bcolors.OKBLUE + "████████      " + bcolors.END + "|" + bcolors.END)
+            bcolors.BOLD + self.name + ":          " + str(self.hp) + "/" + str(self.max_hp) + "  |" + bcolors.OKGREEN + bar + hp_bar_spaces + bcolors.END + "|    "+ str(self.mp) + "/" + str(self.max_mp) + "  |" + bcolors.OKBLUE  + mp_bar_ticks +mp_bar_spaces + bcolors.END + "|" + bcolors.END)
 
