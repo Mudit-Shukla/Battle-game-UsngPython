@@ -13,7 +13,8 @@ class bcolors:
 
 
 class Person:
-    def __init__(self, hp, mp, atk, df, magic, items):
+    def __init__(self,name, hp, mp, atk, df, magic, items):
+        self.name = name
         self.max_hp = hp
         self.hp = hp
         self.max_mp = mp
@@ -62,22 +63,28 @@ class Person:
 
     def choose_action(self):
         i = 1
-        print(bcolors.OKBLUE + bcolors.BOLD + "Actions\n" + bcolors.END)
+        print(bcolors.OKGREEN +"\n       " + self.name + bcolors.END)
+        print(bcolors.OKBLUE + bcolors.BOLD + "       Actions\n" + bcolors.END)
         for item in self.actions:
-            print("      " + str(i), ":", item)
+            print("          " + str(i), ":", item)
             i += 1
 
     def choose_magic(self):
         i = 1
-        print(bcolors.OKGREEN + bcolors.BOLD + "Magics\n" + bcolors.END)
+        print(bcolors.OKGREEN + bcolors.BOLD + "       Magics\n" + bcolors.END)
         for spell in self.magic:
-            print("     " + str(i) + ":", spell.name + " cost : ", spell.cost)
+            print("         " + str(i) + ":", spell.name + " cost : ", spell.cost)
             i += 1
 
     def choose_item(self):
         i = 1
-        print(bcolors.OKGREEN + bcolors.BOLD + "Items\n" + bcolors.END)
+        print(bcolors.OKGREEN + bcolors.BOLD + "       Items\n" + bcolors.END)
         for item in self.items:
-            print("        " + str(i) + ".", item["item"].name + ":", item["item"].description,
+            print("            " + str(i) + ".", item["item"].name + ":", item["item"].description,
                   " (x" + str(item["quantity"]) + ")")
             i += 1
+    def get_stats(self):
+        print("                               _________________________            _______________")
+        print(
+            bcolors.BOLD + self.name + ":          " + str(self.hp) + "/" + str(self.max_hp) + "  |" + bcolors.OKGREEN + "███████████             " + bcolors.END + "|    "+ str(self.mp) + "/" + str(self.max_mp) + "  |" + bcolors.OKBLUE + "████████      " + bcolors.END + "|" + bcolors.END)
+
