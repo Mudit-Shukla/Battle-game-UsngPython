@@ -1,6 +1,7 @@
 from classes.game import Person, bcolors
 from classes.magic import Spell
 from classes.inventory import Item
+import random
 
 print("\n")
 print("Name :                       HP                                 MP")
@@ -31,11 +32,11 @@ player_items = [{"item": potion, "quantity": 15}, {"item": ultra_potion, "quanti
                 {"item": super_potion, "quantity": 5}, {"item": elixir, "quantity": 5},
                 {"item": mega_elixir, "quantity": 2}, {"item": grenade, "quantity": 5}]
 
-player = Person("Player 1", 4000, 65, 60, 34, player_spell, player_items)  # creating player
-player2 = Person("Player 2", 5000, 65, 60, 34, player_spell, player_items)  # creating player
-player3 = Person("Player 3", 6000, 65, 60, 34, player_spell, player_items)  # creating player
+player = Person("Player 1", 2000, 150, 100, 34, player_spell, player_items)  # creating player
+player2 = Person("Player 2", 2000, 150, 100, 34, player_spell, player_items)  # creating player
+player3 = Person("Player 3", 2000, 150,100, 34, player_spell, player_items)  # creating player
 
-enemy = Person("Enemy 1",8000, 65, 45, 24, [], [])  # creating enemy
+enemy = Person("Enemy 1",5000, 250, 150, 24, [], [])  # creating enemy
 
 players = [player, player2, player3]
 
@@ -49,8 +50,9 @@ while running:
     for player in players:
 
         player.get_stats()
-        print("\n")
 
+        print("\n")
+    enemy.get_enemy_stats()
     print(
         bcolors.FAIL + bcolors.BOLD + enemy.name +" attacks." + bcolors.END)  # colours the text "Enemy attacks" the last attribute cancels the effect of the last applied effects.
 
@@ -107,7 +109,12 @@ while running:
                     player.take_damage(-item.property)
                     print(bcolors.OKGREEN + item.name + " heals for " + str(item.property), "HP" + bcolors.END)
                 elif item.type == "elixir":
-                    player.hp = player.max_hp
+                    if item.name == "Mega elixir":
+                        for i in players:
+                            i.hp = i.max_hp
+                            i.mp = i.max_mp
+                    else:
+                        player.hp = player.max_hp
                     print(bcolors.OKGREEN + item.name + "restores all HP/MP" + bcolors.END)
                 elif item.type == "attack":
                     enemy.take_damage(item.property)
