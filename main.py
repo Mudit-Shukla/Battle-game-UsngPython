@@ -34,39 +34,42 @@ player_items = [{"item": potion, "quantity": 15}, {"item": ultra_potion, "quanti
 
 player = Person("Player 1", 2000, 150, 100, 34, player_spell, player_items)  # creating player
 player2 = Person("Player 2", 2000, 150, 100, 34, player_spell, player_items)  # creating player
-player3 = Person("Player 3", 2000, 150,100, 34, player_spell, player_items)  # creating player
+player3 = Person("Player 3", 2000, 150, 100, 34, player_spell, player_items)  # creating player
 
-enemy = Person("Enemy 1",5000, 250, 150, 24, [], [])  # creating enemy
+enemy1 = Person("Enemy 1", 5000, 250, 150, 24, [], [])  # creating enemy
+enemy2 = Person("Enemy 2", 1000, 100, 75, 12, [], [])
+enemy3 = Person("Enemy 3", 1000, 100, 75, 12, [], [])
 
 players = [player, player2, player3]
+enemies = [enemy1, enemy2, enemy3]
 
 running = True
 
 i = 0
 
-
 while running:
 
     for player in players:
-
         player.get_stats()
 
         print("\n")
-    enemy.get_enemy_stats()
-    print(
-        bcolors.FAIL + bcolors.BOLD + enemy.name +" attacks." + bcolors.END)  # colours the text "Enemy attacks" the last attribute cancels the effect of the last applied effects.
+
+    for enemy in enemies:
+        enemy.get_enemy_stats()
 
     print("\n======================================")
     for player in players:
+        choose_target = player.choose_enemy_target(enemies);
         player.choose_action()  # select action whether attack or use magic
         choice = int(input("Enter your choice"))
         index = choice
 
         if index == 1:
             damage = player.generate_damage()
-            enemy.take_damage(damage)
-            print(bcolors.OKBLUE + player.name + " attacked for " + str(damage) + "points of damage. " + enemy.name + " hit points " + str(
-                enemy.get_hp()) + bcolors.END)
+            enemies[choose_target].take_damage(damage)
+            print(bcolors.OKBLUE + player.name + " attacked for " + str(
+                damage) + "points of damage. " + enemies[choose_target].name + " hit points " + str(
+                enemies[choose_target].get_hp()) + bcolors.END)
         elif index == 2:
             player.choose_magic()
             magic_choice = int(input("Enter magic choice")) - 1  # making compatible to array of magics
@@ -82,17 +85,19 @@ while running:
                     print(bcolors.WARNING + player.name + "magic points ", str(player.get_mp()) + bcolors.END)
                     print(
                         bcolors.OKBLUE + player.name + " gained " + str(
-                            -magic_damage) + " points of damage. "+ enemy.name + " hit points " + str(
-                            enemy.get_hp()) + " and your hit points: " + str(player.get_hp()) + bcolors.END)
+                            -magic_damage) + " points of damage. " + enemies[choose_target].name + " hit points " + str(
+                            enemies[choose_target].get_hp()) + " and your hit points: " + str(player.get_hp()) + bcolors.END)
                     continue
                 else:
                     damage_caused_by_magic = magic_damage  # generate damage and store in a variable
-                    enemy.take_damage(magic_damage)  # applying damage to enemy
+                    enemies[choose_target].take_damage(magic_damage)  # applying damage to enemy
                     print(bcolors.WARNING + player.name + " magic points ", str(player.get_mp()) + bcolors.END)
                     print(bcolors.OKBLUE + player.name + " attacked for " + str(
-                        magic_damage) + " points of damage. " + enemy.name + " hit points " + str(enemy.get_hp()) + bcolors.END)
+                        magic_damage) + " points of damage. " + enemies[choose_target].name + " hit points " + str(
+                        enemies[choose_target].get_hp()) + bcolors.END)
             else:
-                print(bcolors.FAIL + player.name + " do not have enough magic points to buy " + spell.name + bcolors.END)
+                print(
+                    bcolors.FAIL + player.name + " do not have enough magic points to buy " + spell.name + bcolors.END)
                 continue  # skip rest of steps and move back to the start of loop
 
         elif index == 3:
@@ -117,21 +122,30 @@ while running:
                         player.hp = player.max_hp
                     print(bcolors.OKGREEN + item.name + "restores all HP/MP" + bcolors.END)
                 elif item.type == "attack":
-                    enemy.take_damage(item.property)
+                    enemies[choose_target].take_damage(item.property)
                     print(bcolors.FAIL + player.name + " attacked for " + str(
-                        item.property) + " points of damage. " + enemy.name + " hit points" + str(enemy.get_hp()) + bcolors.END)
+                        item.property) + " points of damage. " +enemies[choose_target].name + " hit points" + str(
+                        enemies[choose_target].get_hp()) + bcolors.END)
 
+
+
+    for enemy in enemies:
         enemy_choice = 1  # declaring enemy choice as attack only (till now)
-
+        choose_player = enemy.choose_player_target(players)
         damage = enemy.generate_damage()  # generating damage by enemy
-        player.take_damage(damage)  # applying damage to player
-        if player.get_hp() == 0:  # checking if player is dead
-            print(bcolors.FAIL + player.name + " are dead. You Lost" + bcolors.END)
+        players[choose_player].take_damage(damage)  # applying damage to player
+        if players[choose_player].get_hp() == 0:  # checking if player is dead
+            print(bcolors.FAIL + players[choose_player].name + " are dead. You Lost" + bcolors.END)
             break
         elif enemy.get_hp() == 0:  # checking if enemy is dead
             print(bcolors.OKBLUE + enemy.name + " is dead. You Won!" + bcolors.END)
             break
         else:
-            print(bcolors.WARNING + enemy.name + " attacked for" + str(damage) + " points of damage. " + player.name + " hit points " + str(
-                player.get_hp()) + bcolors.END)
+            print(bcolors.WARNING + enemy.name + " attacked for" + str(
+                damage) + " points of damage. " + players[choose_player].name + " hit points " + str(
+                players[choose_player].get_hp()) + bcolors.END)
+
+
+
+
 
