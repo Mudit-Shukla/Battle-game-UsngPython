@@ -1,6 +1,5 @@
 import random
 
-
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -92,6 +91,18 @@ class Person:
             i+=1
         choice = int(input("enter your choice")) - 1
         return choice
+
+    def choose_enemy_spell(self):
+        magic_choice = random.randrange(0, len(self.magic))
+        chosen_spell = self.magic[magic_choice]
+        magic_dmg = chosen_spell.generate_spell_damage()
+
+        ready_hitpoints = self.hp / self.max_hp * 100
+
+        if self.mp < chosen_spell.cost or chosen_spell.type == "white" and ready_hitpoints > 50:
+            self.choose_enemy_spell()
+        else:
+            return chosen_spell, magic_dmg
 
     def choose_player_target(self, players):
         choice = random.randrange(0,3)
